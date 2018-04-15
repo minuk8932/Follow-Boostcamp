@@ -3,8 +3,9 @@ package or.kr.connect.bookserver.persistence;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
  * 
@@ -18,7 +19,7 @@ public class BookDao {
 	
 	private NamedParameterJdbcTemplate jdbc;
 	
-	public BookDao(DriverManagerDataSource dataSource) {
+	public BookDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);	// NamedParameterJdbcTemplate에 파라미터로 받아온 dataSource를 넘겨줌
 	}
 	
