@@ -4,6 +4,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import or.kr.connect.bookserver.persistence.BookDao;
+import or.kr.connect.domain.Book;
 
 /**
  * 
@@ -33,6 +34,9 @@ public class BookLaucher {
 		BookDao dao = context.getBean(BookDao.class);										// BookDao 클래스를 통해
 		int count = dao.countBooks();														// 행의 갯수를 count 변수에 받아옴					
 		System.out.println(count);															// 저장된 갯수 출력
+		
+		Book book = dao.selectById(1);							// Book에서 생성한 쿼리 메소드를 받아와서
+		System.out.println(book);								// 반환값 출력
 		
 		context.close();
 	}
