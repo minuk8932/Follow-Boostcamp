@@ -1,7 +1,5 @@
 package or.kr.connect.bookserver;
 
-import javax.sql.DataSource;
-
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
