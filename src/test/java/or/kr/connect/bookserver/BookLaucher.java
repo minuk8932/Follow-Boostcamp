@@ -24,11 +24,17 @@ public class BookLaucher {
 	public static void main(String[] args) {
 		// AppConfig 객체를 Application Context를 통해 BookLauncer class에 참조함
 		ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-		DataSource dataSource = context.getBean(DataSource.class);							// 해당 객체에서 빈을 통해 사용할 클래스를 받아옴
 		
-		BookDao dao = new BookDao(dataSource);												// BookDao 클래스를 통해 행의 갯수를
-		int count = dao.countBooks();														// count 변수에 받아옴
-		System.out.println(count);														// 저장된 갯수 출력
+		/**
+		 *  Application context에서 직접 Book Dao를 받아옴 ->	
+		 *  BookDao의 생성자에 DataSource 객체를 넘겨서 주입하는 과정 : DataSource dataSource = context.getBean(DataSource.class);
+		 *  	BookDao를 @Bean 애너테이션을 이용해서 등록하는 과정 : BookDao dao = new BookDao(dataSource);
+		 * 	
+		 * 	두 과정이 자동으로 이루어짐
+		 */
+		BookDao dao = context.getBean(BookDao.class);										// BookDao 클래스를 통해
+		int count = dao.countBooks();														// 행의 갯수를 count 변수에 받아옴					
+		System.out.println(count);															// 저장된 갯수 출력
 		
 		context.close();
 	}

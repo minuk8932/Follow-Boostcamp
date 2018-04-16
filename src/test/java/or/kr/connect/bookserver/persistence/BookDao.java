@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
@@ -14,6 +15,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  *	DB에 접속해 쿼리를 호출하는 역할을 해당 클래스에 선언해줌 
  *	즉, 행의 수를 세는 기능을 본 클래스로 옮기고 메인 클래스에선 결과값만 받아 볼 수 있게 설정
  */
+
+@Repository
 public class BookDao {
 	private static final String COUNT_BOOK = "SELECT COUNT(*) FROM book";
 	
