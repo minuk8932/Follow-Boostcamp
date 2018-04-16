@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -51,17 +52,10 @@ public class BookDao {
 	 *		};
 	 * 				->  아래의 람다 표현식을 익명클래스로 표현
 	 */
-	public Book selectById(Integer id) {
-		RowMapper<Book> rowMapper = (rs, i) -> {				// 람다 표현식, 원하는 객체로 변환을 도와줌
-			Book book = new Book();
-			book.setId(rs.getInt("id"));
-			book.setTitle(rs.getString("title"));
-			book.setAuthor(rs.getString("author"));
-			book.setPages((Integer) rs.getObject("pages"));
-			
-			return book;
-		};
-		
+	
+	RowMapper<Book> rowMapper = BeanPropertyRowMapper.newInstance(Book.class);	// 람다 표현식을 간단히해주는 BeanPropertyRowMapper로 선언
+																// newInstance로 생성된 객체는 멀티스레드에서 접근해도 안전해, 멤버변수로 선언 가능
+	public Book selectById(Integer id) {		
 		Map<String, Object> params = new HashMap<>();
 		params.put("id", id);
 		
