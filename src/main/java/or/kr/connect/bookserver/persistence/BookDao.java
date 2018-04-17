@@ -27,7 +27,8 @@ import or.kr.connect.domain.Book;
 @Repository
 public class BookDao {
 	private static final String COUNT_BOOK = "SELECT COUNT(*) FROM book";
-	private static final String SELECT_BY_ID = "SELECT id, title, author, pages FROM book where id = :id";	// book 테이블을 id로 조회
+	private static final String SELECT_BY_ID = "SELECT id, title, author, pages FROM book where id = :id"; 	// book 테이블을 id로 조회
+	private static final String DELETE_BY_ID = "DELETE FROM book WHERE id= :id";		// 삭제 쿼리
 	
 	private NamedParameterJdbcTemplate jdbc;
 	private SimpleJdbcInsert insertAction;
@@ -68,6 +69,11 @@ public class BookDao {
 		params.put("id", id);
 		
 		return jdbc.queryForObject(SELECT_BY_ID, params, rowMapper);	// id값으로 조회하는 쿼리, rowMapper를 통해 객체 형변환 
+	}
+	
+	public int deleteById(Integer id) {
+		Map<String, ?> params = Collections.singletonMap("id", id);
+		return jdbc.update(DELETE_BY_ID, params);
 	}
 	
 	public Integer insert(Book book) {
