@@ -1,4 +1,4 @@
-package or.kr.connect;
+package or.kr.connect.bookserver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
