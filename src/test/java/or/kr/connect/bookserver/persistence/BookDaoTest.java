@@ -52,4 +52,21 @@ public class BookDaoTest {
 		// Then
 		assertThat(affected, CoreMatchers.is(1));
 	}
+	
+	@Test
+	public void shouldUpdate() {
+		// Given
+		Book book = new Book("네이버 자바", "네이버", 142);
+		Integer id = dao.insert(book);
+
+		// When
+		book.setId(id);
+		book.setTitle("네이버 자바2");
+		int affected = dao.update(book);
+
+		// Then
+		assertThat(affected, CoreMatchers.is(1));
+		Book updated = dao.selectById(id);
+		assertThat(updated.getTitle(), CoreMatchers.is("네이버 자바2"));
+	}
 }

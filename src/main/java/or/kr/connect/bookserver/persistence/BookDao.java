@@ -29,6 +29,12 @@ public class BookDao {
 	private static final String COUNT_BOOK = "SELECT COUNT(*) FROM book";
 	private static final String SELECT_BY_ID = "SELECT id, title, author, pages FROM book where id = :id"; 	// book 테이블을 id로 조회
 	private static final String DELETE_BY_ID = "DELETE FROM book WHERE id= :id";		// 삭제 쿼리
+	private static final String UPDATE =
+			"UPDATE book SET\n"
+			+ "title = :title,"
+			+ "author = :author,"
+			+ "pages = :pages\n"
+			+ "WHERE id = :id";
 	
 	private NamedParameterJdbcTemplate jdbc;
 	private SimpleJdbcInsert insertAction;
@@ -80,5 +86,10 @@ public class BookDao {
 		// BeanPropertySqlParameterSource을 이용해서 Book 클래스에서 SqlParameterSource로 변환
 		SqlParameterSource params = new BeanPropertySqlParameterSource(book);	
 		return insertAction.executeAndReturnKey(params).intValue();			// 생성된 key 값을 정수형으로 반환
+	}
+	
+	public int update(Book book) {											// update
+		SqlParameterSource params = new BeanPropertySqlParameterSource(book);
+		return jdbc.update(UPDATE, params);
 	}
 }
