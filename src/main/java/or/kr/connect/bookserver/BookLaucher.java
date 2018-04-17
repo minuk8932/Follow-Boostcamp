@@ -2,6 +2,7 @@ package or.kr.connect.bookserver;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import or.kr.connect.bookserver.persistence.BookDao;
 import or.kr.connect.domain.Book;
@@ -19,6 +20,7 @@ import or.kr.connect.domain.Book;
  *	-> 위의 내용을 DI 기능을 가져와 AppConfig 클래스에서 정의함
  *	-----------------------------------------------------------------
  */
+
 public class BookLaucher {
 	public static void main(String[] args) {
 		// AppConfig 객체를 Application Context를 통해 BookLauncer class에 참조함
@@ -41,7 +43,7 @@ public class BookLaucher {
 		Book book2 = new Book("naver Java", "김강산", 512);		// book2에 2번째 테이블 저장
 		Integer newId = dao.insert(book2);						// book2의 아이디를 newId에 저장
 		System.out.println(newId);								// id 출력
-		System.out.println(dao.selectById(2));				// id를 통한 테이블 출력
+		System.out.println(dao.selectById(newId));				// id를 통한 테이블 출력
 		
 		context.close();
 	}

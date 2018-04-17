@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * 
@@ -45,5 +47,10 @@ public class AppConfig {
 		dataSource.setUsername(username);
 		dataSource.setPassword(password);
 		return dataSource;
+	}
+	
+	@Bean
+	public PlatformTransactionManager transactionManager() {		// 트랜잭션의 시작과 종료, 취소를 할 때 사용
+		return new DataSourceTransactionManager(dataSource());
 	}
 }
