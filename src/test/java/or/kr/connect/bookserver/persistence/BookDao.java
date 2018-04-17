@@ -8,7 +8,10 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import or.kr.connect.domain.Book;
@@ -27,9 +30,14 @@ public class BookDao {
 	private static final String SELECT_BY_ID = "SELECT id, title, author, pages FROM book where id = :id";	// book 테이블을 id로 조회
 	
 	private NamedParameterJdbcTemplate jdbc;
+	private SimpleJdbcInsert insertAction;
 	
 	public BookDao(DataSource dataSource) {
 		this.jdbc = new NamedParameterJdbcTemplate(dataSource);	// NamedParameterJdbcTemplate에 파라미터로 받아온 dataSource를 넘겨줌
+		
+		this.insertAction = new SimpleJdbcInsert(dataSource)		// jdbcInsert 객체 생성 후 메서드를 통해 dataSource를 가져옴
+				.withTableName("book")							// table 이름이 book
+				.usingGeneratedKeyColumns("id");					// 프라이머리키가 id
 	}
 	
 	public int countBooks() {								// 책 갯수를 세는 메소드
@@ -60,5 +68,11 @@ public class BookDao {
 		params.put("id", id);
 		
 		return jdbc.queryForObject(SELECT_BY_ID, params, rowMapper);	// id값으로 조회하는 쿼리, rowMapper를 통해 객체 형변환 
+	}
+	
+	public Integer insert(Book book) {
+		// BeanPropertySqlParameterSource을 이용해서 Book 클래스에서 SqlParameterSource로 변환
+		SqlParameterSource params = new BeanPropertySqlParameterSource(book);	
+		return insertAction.executeAndReturnKey(params).intValue();			// 생성된 key 값을 정수형으로 반환
 	}
 }

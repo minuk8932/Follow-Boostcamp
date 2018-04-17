@@ -38,6 +38,11 @@ public class BookLaucher {
 		Book book = dao.selectById(1);							// Book에서 생성한 쿼리 메소드를 받아와서
 		System.out.println(book);								// 반환값 출력
 		
+		Book book2 = new Book("naver Java", "김강산", 512);		// book2에 2번째 테이블 저장
+		Integer newId = dao.insert(book2);						// book2의 아이디를 newId에 저장
+		System.out.println(newId);								// id 출력
+		System.out.println(dao.selectById(newId));				// id를 통한 테이블 출력
+		
 		context.close();
 	}
 }

@@ -6,6 +6,15 @@ public class Book {
 	private String title;
 	private Integer pages;
 	
+	public Book() {
+	}
+
+	public Book(String title, String author, Integer pages) {
+		this.title = title;
+		this.author = author;
+		this.pages = pages;
+	}
+	
 	@Override
 	public String toString() {
 		return "Book[id = "+ id +", title = "+ title +", author = " + author + ", pages = " + pages + "]";
